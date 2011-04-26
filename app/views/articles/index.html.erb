@@ -1,0 +1,33 @@
+<h1>Listing articles</h1>
+
+<%= form_tag search_articles_path, :method => :get, :remote => true do %>
+  <fieldset>
+    <h3 class="fieldset_title">Search for an article</h3>
+
+    <div class="input">
+      <%= label_tag :search, "Article name" %>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Search", :name => nil %>
+    </div>
+  </fieldset>
+<% end %>
+
+<table>
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody id="search_results">
+  <%= render @articles %>
+  </tbody>
+</table>
+
+<br/>
+
+<%= link_to 'New Article', new_article_path %>

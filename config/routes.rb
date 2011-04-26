@@ -1,8 +1,9 @@
 PgSearch::Application.routes.draw do
-  resources :products
+  resources :articles do
+    get :search, :on => :collection
+  end
 
-  # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "articles#index"
 
   # See how all your routes lay out with "rake routes"
 end
