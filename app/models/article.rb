@@ -1,21 +1,27 @@
 class Article < ActiveRecord::Base
+  validates :title, :body, :presence => true
 
-  def self.tsearch(search_terms, limit = 30)
-    words = sanitize(search_terms.scan(/\w+/) * "|")
+  class << self
+    # Note that ActiveRecord ARel from() doesn't appear to accommodate "?"
+    # param placeholder, hence the need for manual parameter sanitization
+    def tsearch_query(search_terms, limit = 25)
+      words = sanitize(search_terms.scan(/\w+/) * "|")
 
-    Article.select([:title, :body, :id]).
-      from("articles, to_tsquery('pg_catalog.english', #{words}) as q").
-        where("tsv @@ q").
-          order("ts_rank_cd(tsv, q) DESC").limit(limit)
+      Article.from("articles, to_tsquery('pg_catalog.english', #{words}) as q").
+        where("tsv @@ q").order("ts_rank_cd(tsv, q) DESC").limit(limit)
+    end
+
+    # Selects search results with plain text title & body columns.
+    # Select columns are explicitly listed to avoid returning the long redundant tsv strings
+    def plain_tsearch(search_terms, limit)
+      select([:title, :body, :id]).tsearch_query(search_terms, limit)
+    end
+
+    # Select search results with HTML highlighted title & body columns
+    def highlight_tsearch(search_terms, limit)
+      body = "ts_headline(body, q, 'StartSel=<strong>, StopSel=</strong>, HighlightAll=TRUE') as body"
+      title = "ts_headline(title, q, 'StartSel=<strong>, StopSel=</strong>, HighlightAll=TRUE') as title"
+      Article.select([body, title, :id]).tsearch_query(search_terms, limit)
+    end
   end
-
-  def self.highlighted_results
-     select("ts_headline(body, q, 'StartSel = <strong>, StopSel = </strong>, HighlightAll=TRUE') as html_body").
-       select("ts_headline(title, q, 'StartSel = <strong>, StopSel = </strong>, HighlightAll=TRUE') as html_title")
-  end
-
-  def self.highlighted_tsearch(search_terms)
-    highlighted_results.tsearch(search_terms)
-  end
-
 end

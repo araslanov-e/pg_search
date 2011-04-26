@@ -1,18 +1,22 @@
-<h1>Listing articles</h1>
+<h2>Tsearch example</h2>
+<%= link_to 'New Article', new_article_path %>
+<br><br>
 
 <%= form_tag search_articles_path, :method => :get, :remote => true do %>
   <fieldset>
-    <h3 class="fieldset_title">Search for an article</h3>
+    <h3>Search for an article</h3>
 
     <div class="input">
       <%= label_tag :search, "Article name" %>
       <%= text_field_tag :search, params[:search] %>
-      <%= submit_tag "Search", :name => nil %>
+      <%= check_box_tag :use_highlights, '1', params[:use_highlights] %>
+      <%= label :use_highlights, 'HTML Highlight results' %>
+      <%= submit_tag "Search" %>
     </div>
   </fieldset>
 <% end %>
 
-<table>
+<table style="width:750px;">
   <thead>
   <tr>
     <th>Title</th>
@@ -24,10 +28,6 @@
   </thead>
 
   <tbody id="search_results">
-  <%= render @articles %>
+    <%= render @articles %>
   </tbody>
 </table>
-
-<br/>
-
-<%= link_to 'New Article', new_article_path %>

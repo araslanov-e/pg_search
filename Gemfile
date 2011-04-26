@@ -1,8 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails'
+gem 'rails', '3.0.7'
 gem "jquery-rails"
-gem "simple_form"
 
 platforms :jruby do
   gem 'jruby-openssl'
@@ -12,12 +11,4 @@ end
 
 platforms :ruby, :mswin do
   gem 'pg'
-end
-
-
-group :test, :development do
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem 'timecop'
-  gem 'factory_girl_rails'
 end

@@ -4,6 +4,4 @@ PgSearch::Application.routes.draw do
   end
 
   root :to => "articles#index"
-
-  # See how all your routes lay out with "rake routes"
 end
