@@ -1,0 +1,11 @@
+.project
+.bundle
+.idea
+dump.rdb
+db/*.sqlite3
+log
+tmp
+update/**/*
+nbproject/**/*
+vendor/bundle/**/*
+work

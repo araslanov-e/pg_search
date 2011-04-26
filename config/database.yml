@@ -1,0 +1,30 @@
+
+development:
+  adapter:  postgresql
+  database: pg_search_development
+  encoding: unicode
+  pool: 5
+  username: my_user
+  password: my_password
+  #adapter: jdbcpostgresql
+  #url: jdbc:postgresql://localhost:5432/pg_search_development
+
+test:
+  adapter:  postgresql
+  database: pg_search_test
+  encoding: unicode
+  pool: 5
+  username: my_user
+  password: my_password
+  #adapter: jdbcpostgresql
+  #url: jdbc:postgresql://localhost:5432/pg_search_test
+
+
+production:
+  encoding: unicode
+  pool: 5
+  username: my_user
+  password: my_password
+  adapter: jdbcpostgresql
+  #adapter: jdbcpostgresql
+  #url: jdbc:postgresql://localhost:5432/pg_search_production
