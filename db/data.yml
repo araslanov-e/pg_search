@@ -1,0 +1,15 @@
+
+--- 
+articles: 
+  columns:
+  - title
+  - body
+  records: 
+  - - Monkeys in hell
+    - Monkeys are a hell to have in the house
+  - - The hot Monkey
+    - Nothing about that animal here
+  - - The hot hot cooking pot
+    - Nothing about that animal here although this body text does mention pastry
+  - - The Monkeys of doom
+    - Mentioning hot, but less relevant because it's in the body which has been given a slightly lower relevance weighting

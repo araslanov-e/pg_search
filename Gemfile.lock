@@ -67,6 +67,7 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.26)
+    yaml_db (0.2.1)
 
 PLATFORMS
   ruby
@@ -78,3 +79,4 @@ DEPENDENCIES
   jruby-openssl
   pg
   rails (= 3.0.7)
+  yaml_db
