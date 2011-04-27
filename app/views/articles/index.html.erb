@@ -1,4 +1,4 @@
-<h2>Tsearch example</h2>
+<h2>A PostgreSQL Full Text Search example</h2>
 <%= link_to 'New Article', new_article_path %>
 <br><br>
 
@@ -7,27 +7,24 @@
     <h3>Search for an article</h3>
 
     <div class="input">
-      <%= label_tag :search, "Article name" %>
+      <%= label_tag :search, "Search terms" %>
       <%= text_field_tag :search, params[:search] %>
+      <br>
       <%= check_box_tag :use_highlights, '1', params[:use_highlights] %>
       <%= label :use_highlights, 'HTML Highlight results' %>
+      <br><br>
       <%= submit_tag "Search" %>
     </div>
   </fieldset>
 <% end %>
 
-<table style="width:750px;">
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>Body</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
-
-  <tbody id="search_results">
+<div id="search_results">
+  <% if @articles.any? %>
     <%= render @articles %>
-  </tbody>
-</table>
+  <% else %>
+    <p>
+      Oh dear. Your search matched nothing in the database, or there there is simply
+      nothing in the database.
+    </p>
+  <% end %>
+</div>

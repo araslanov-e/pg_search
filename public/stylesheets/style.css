@@ -1,0 +1,18 @@
+em { color: red; font-weight: bolder; }
+div#container { width: 440px; }
+
+form
+{
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -khtml-border-radius: 6px;
+  border-radius: 6px;
+  background: none repeat scroll 0 0 #E7EFEC;
+  border: 1px none #DEDEDE;
+  margin: 0 0 20px;
+  padding: 4px 4px 4px 12px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+fieldset { border: none;}

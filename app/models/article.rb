@@ -18,8 +18,8 @@ class Article < ActiveRecord::Base
 
   # Select search results with HTML highlighted title & body columns
   def self.highlight_tsearch(search_terms, limit = query_limit)
-    body = "ts_headline(body, q, 'StartSel=<strong>, StopSel=</strong>, HighlightAll=TRUE') as body"
-    title = "ts_headline(title, q, 'StartSel=<strong>, StopSel=</strong>, HighlightAll=TRUE') as title"
+    body = "ts_headline(body, q, 'StartSel=<em>, StopSel=</em>, HighlightAll=TRUE') as body"
+    title = "ts_headline(title, q, 'StartSel=<em>, StopSel=</em>, HighlightAll=TRUE') as title"
     Article.select([body, title, :id]).tsearch_query(search_terms, limit)
   end
 
