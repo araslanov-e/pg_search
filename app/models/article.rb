@@ -3,7 +3,7 @@ class Article < ActiveRecord::Base
 
   # Note that ActiveRecord ARel from() doesn't appear to accommodate "?"
   # param placeholder, hence the need for manual parameter sanitization
-  def self.tsearch_query(search_terms, limit = 25)
+  def self.tsearch_query(search_terms, limit = query_limit)
     words = sanitize(search_terms.scan(/\w+/) * "|")
 
     Article.from("articles, to_tsquery('pg_catalog.english', #{words}) as q").
@@ -12,14 +12,16 @@ class Article < ActiveRecord::Base
 
   # Selects search results with plain text title & body columns.
   # Select columns are explicitly listed to avoid returning the long redundant tsv strings
-  def self.plain_tsearch(search_terms, limit)
+  def self.plain_tsearch(search_terms, limit = query_limit)
     select([:title, :body, :id]).tsearch_query(search_terms, limit)
   end
 
   # Select search results with HTML highlighted title & body columns
-  def self.highlight_tsearch(search_terms, limit)
+  def self.highlight_tsearch(search_terms, limit = query_limit)
     body = "ts_headline(body, q, 'StartSel=<strong>, StopSel=</strong>, HighlightAll=TRUE') as body"
     title = "ts_headline(title, q, 'StartSel=<strong>, StopSel=</strong>, HighlightAll=TRUE') as title"
     Article.select([body, title, :id]).tsearch_query(search_terms, limit)
   end
+
+  def self.query_limit; 25; end
 end
