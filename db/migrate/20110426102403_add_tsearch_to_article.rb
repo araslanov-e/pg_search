@@ -3,7 +3,7 @@ class AddTsearchToArticle < ActiveRecord::Migration
     execute(<<-'eosql'.strip)
       ALTER TABLE articles ADD COLUMN tsv tsvector;
 
-      CREATE FUNCTION articles_trigger() RETURNS trigger AS $$
+      CREATE FUNCTION articles_generate_tsvector() RETURNS trigger AS $$
         begin
           new.tsv :=
             setweight(to_tsvector('pg_catalog.english', coalesce(new.title,'')), 'A') ||
@@ -14,7 +14,7 @@ class AddTsearchToArticle < ActiveRecord::Migration
 
       CREATE TRIGGER tsvector_articles_upsert_trigger BEFORE INSERT OR UPDATE
         ON articles
-        FOR EACH ROW EXECUTE PROCEDURE articles_trigger();
+        FOR EACH ROW EXECUTE PROCEDURE articles_generate_tsvector();
 
       UPDATE articles SET tsv =
         setweight(to_tsvector('pg_catalog.english', coalesce(title,'')), 'A') ||
@@ -28,7 +28,7 @@ class AddTsearchToArticle < ActiveRecord::Migration
     execute(<<-'eosql'.strip)
       DROP INDEX IF EXISTS articles_tsv_idx;
       DROP TRIGGER IF EXISTS tsvector_articles_upsert_trigger ON articles;
-      DROP FUNCTION IF EXISTS articles_trigger();
+      DROP FUNCTION IF EXISTS articles_generate_tsvector();
       ALTER TABLE articles DROP COLUMN tsv;
     eosql
   end
